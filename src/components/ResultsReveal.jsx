@@ -174,9 +174,9 @@ const ResultsReveal = ({ answers, userData }) => {
                                 </div>
 
                                 <div className="mt-12 border-t border-slate-100 pt-10">
-                                    <h3 className="text-2xl font-bold text-slate-900 mb-4">Get your personalized First Fix report</h3>
-                                    <p className="text-slate-600 mb-8 max-w-xl mx-auto">
-                                        We'll show you exactly how to fix these gaps right away — before they start hurting your business or limiting your growth.
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-4">Get your personalized First Fix report (100% Free)</h3>
+                                    <p className="text-slate-600 mb-8 max-w-xl mx-auto leading-relaxed">
+                                        We'll show you exactly how to fix these gaps right away — with no obligation and before they start hurting your business or limiting your growth.
                                     </p>
                                     <div className="w-full min-h-[500px] bg-slate-50 rounded-[50px] overflow-hidden shadow-inner">
                                         <iframe
