@@ -37,14 +37,15 @@ const ResultsReveal = ({ answers, userData }) => {
     }, [step]);
 
     return (
-        <div className="w-full max-w-4xl mx-auto py-12">
+        <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 min-h-[60vh] flex flex-col justify-center">
             <AnimatePresence mode="wait">
                 {step === 1 && (
                     <motion.div
                         key="calculating"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 1.1 }}
+                        transition={{ duration: 0.5 }}
                         className="text-center py-20"
                     >
                         <motion.div
@@ -52,7 +53,7 @@ const ResultsReveal = ({ answers, userData }) => {
                             transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
                             className="w-12 h-12 border-4 border-slate-200 border-t-slate-800 rounded-full mx-auto mb-6"
                         />
-                        <h2 className="text-2xl font-medium text-slate-600">Calculating your Business Pressure...</h2>
+                        <h2 className="text-xl md:text-2xl font-semibold text-slate-600">Calculating your Business Pressure...</h2>
                     </motion.div>
                 )}
 
@@ -61,9 +62,9 @@ const ResultsReveal = ({ answers, userData }) => {
                         key="results-grid"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="space-y-12"
+                        className="space-y-8 md:space-y-12"
                     >
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-6 max-w-2xl mx-auto">
                             {Object.keys(QUADRANTS).map((key) => {
                                 const quad = QUADRANTS[key];
                                 const Icon = icons[quad.icon];
@@ -79,20 +80,31 @@ const ResultsReveal = ({ answers, userData }) => {
                                         animate={{
                                             scale: step >= 4 && isMax ? 1.05 : 1,
                                             opacity: step >= 4 && !isMax ? 0.6 : 1,
-                                            border: step >= 4 && isMax ? `2px solid #64748b` : '1px solid transparent'
+                                            boxShadow: step >= 4 && isMax ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' : 'none'
                                         }}
-                                        className={`quadrant-card glass relative overflow-hidden h-64 flex flex-col items-center justify-center ${step >= 4 && isMax ? 'shadow-2xl z-10' : ''}`}
+                                        className={`quadrant-card glass relative overflow-hidden h-40 md:h-64 flex flex-col items-center justify-center border-2 transition-all duration-500 ${step >= 4 && isMax ? 'border-slate-400 z-10' : 'border-slate-100'}`}
                                     >
                                         <motion.div
                                             initial={{ height: 0 }}
                                             animate={{ height: step >= 3 ? `${fillPercentage}%` : 0 }}
+                                            transition={{ duration: 1.5, ease: "easeOut" }}
                                             className={`absolute bottom-0 left-0 w-full opacity-10 ${quad.color === 'blue' ? 'bg-blue-500' : quad.color === 'green' ? 'bg-green-500' : quad.color === 'orange' ? 'bg-orange-500' : 'bg-purple-500'}`}
                                         />
 
-                                        <div className="p-4 rounded-2xl mb-4 bg-slate-50">
-                                            <Icon className="w-8 h-8 text-slate-600" />
+                                        <div className={`p-3 md:p-4 rounded-xl md:rounded-2xl mb-2 md:mb-4 bg-slate-50 relative z-10 ${isMax && step >= 4 ? 'animate-pulse' : ''}`}>
+                                            <Icon className="w-6 h-6 md:w-8 md:h-8 text-slate-600" />
                                         </div>
-                                        <h3 className="text-xl font-bold text-slate-800 mb-1">{quad.name}</h3>
+                                        <h3 className="text-sm md:text-xl font-bold text-slate-800 text-center px-2 relative z-10">{quad.name}</h3>
+
+                                        {step >= 3 && (
+                                            <motion.span
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className="absolute top-2 right-2 text-[10px] md:text-xs font-bold text-slate-400 tabular-nums"
+                                            >
+                                                {Math.round(fillPercentage)}%
+                                            </motion.span>
+                                        )}
                                     </motion.div>
                                 );
                             })}
@@ -100,46 +112,68 @@ const ResultsReveal = ({ answers, userData }) => {
 
                         {step >= 4 && (
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-center bg-white p-8 rounded-3xl border border-slate-100 shadow-sm"
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                className="text-center bg-white p-6 md:p-10 rounded-3xl border border-slate-100 shadow-xl max-w-3xl mx-auto"
                             >
-                                <div className="inline-flex items-center space-x-2 text-orange-700 bg-orange-50 px-4 py-1 rounded-full text-sm font-bold mb-6">
-                                    <Zap className="w-4 h-4" />
+                                <motion.div
+                                    initial={{ scale: 0.8 }}
+                                    animate={{ scale: 1 }}
+                                    className="inline-flex items-center space-x-2 text-orange-700 bg-orange-50 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold mb-6 shadow-sm"
+                                >
+                                    <Zap className="w-3.5 h-3.5 md:w-4 h-4" />
                                     <span>Pressure Point Identified</span>
-                                </div>
+                                </motion.div>
 
-                                <h2 className="text-3xl font-bold text-slate-800 mb-4">
+                                <h2 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
                                     {userData.name ? `${userData.name}, this` : 'This'} is where pressure is building first.
                                 </h2>
 
-                                <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
-                                    This doesn’t mean you’re doing anything wrong. It means {QUADRANTS[maxQuadrant].name} is where risk is quietly growing — and where fixing one thing will help everything else feel easier.
+                                <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed px-2">
+                                    This doesn’t mean you’re doing anything wrong. It means **{QUADRANTS[maxQuadrant].name}** is where risk is quietly growing — and where fixing one thing will help everything else feel easier.
                                 </p>
 
-                                <div className="grid md:grid-cols-2 gap-6 text-left max-w-3xl mx-auto mb-10">
-                                    <div className="bg-blue-50/50 p-6 rounded-2xl">
+                                <div className="grid md:grid-cols-2 gap-4 md:gap-6 text-left mb-10">
+                                    <motion.div
+                                        whileHover={{ y: -5 }}
+                                        className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50"
+                                    >
                                         <div className="flex items-center space-x-3 mb-3">
-                                            <ShieldCheck className="w-6 h-6 text-blue-600" />
+                                            <div className="p-2 bg-blue-100 rounded-lg">
+                                                <ShieldCheck className="w-5 h-5 text-blue-600" />
+                                            </div>
                                             <h4 className="font-bold text-slate-800 tracking-tight">Ownership View</h4>
                                         </div>
                                         <p className="text-slate-600 text-sm leading-relaxed">
                                             Systems reduce risk by carrying the load for you. The more your business depends on systems, the safer it becomes.
                                         </p>
-                                    </div>
-                                    <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                        <h4 className="font-bold text-slate-800 mb-3 tracking-tight">The First Fix</h4>
+                                    </motion.div>
+
+                                    <motion.div
+                                        whileHover={{ y: -5 }}
+                                        className="bg-slate-50 p-6 rounded-2xl border border-slate-100"
+                                    >
+                                        <div className="flex items-center space-x-3 mb-3">
+                                            <div className="p-2 bg-slate-200 rounded-lg">
+                                                <Zap className="w-5 h-5 text-slate-600" />
+                                            </div>
+                                            <h4 className="font-bold text-slate-800 tracking-tight">The First Fix</h4>
+                                        </div>
                                         <p className="text-slate-600 text-sm leading-relaxed">
                                             By focusing on reducing risk in **{QUADRANTS[maxQuadrant].name}** first, you unlock the momentum needed to stabilize the whole business.
                                         </p>
-                                    </div>
+                                    </motion.div>
                                 </div>
 
-                                <button
-                                    className="group flex items-center justify-center space-x-2 bg-slate-800 text-white px-10 py-5 rounded-full text-xl font-bold hover:bg-slate-700 transition-all shadow-xl hover:shadow-2xl w-full md:w-auto mx-auto"
+                                <motion.button
+                                    whileHover={{ scale: 1.02, y: -2 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="group flex items-center justify-center space-x-2 bg-slate-900 text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-lg md:text-xl font-bold hover:bg-slate-800 transition-all shadow-xl hover:shadow-2xl w-full sm:w-auto mx-auto"
                                 >
-                                    <span>See your first fix →</span>
-                                </button>
+                                    <span>Get your first fix report</span>
+                                    <ArrowRight className="w-5 h-5 md:w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
                             </motion.div>
                         )}
                     </motion.div>

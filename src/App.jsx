@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Intro from './components/Intro';
 import Quiz from './components/Quiz';
@@ -12,30 +12,45 @@ function App() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
     const [userData, setUserData] = useState({ name: '', email: '' });
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    // Ensure we scroll to top on stage/question changes for mobile
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [stage, currentQuestionIndex]);
 
     const handleStart = () => {
         setStage('quiz');
     };
 
     const handleAnswer = (questionId, weight) => {
+        if (isTransitioning) return;
+
+        setIsTransitioning(true);
         setAnswers(prev => ({ ...prev, [questionId]: weight }));
-        const nextIndex = currentQuestionIndex + 1;
 
-        if (nextIndex < QUESTIONS.length) {
-            const currentQuad = QUESTIONS[currentQuestionIndex].quadrant;
-            const nextQuad = QUESTIONS[nextIndex].quadrant;
+        // Subtle delay to allow visual feedback on the selected option
+        setTimeout(() => {
+            const nextIndex = currentQuestionIndex + 1;
 
-            if (currentQuad !== nextQuad) {
-                setStage('interstitial');
+            if (nextIndex < QUESTIONS.length) {
+                const currentQuad = QUESTIONS[currentQuestionIndex].quadrant;
+                const nextQuad = QUESTIONS[nextIndex].quadrant;
+
+                if (currentQuad !== nextQuad) {
+                    setStage('interstitial');
+                } else {
+                    setCurrentQuestionIndex(nextIndex);
+                }
             } else {
-                setCurrentQuestionIndex(nextIndex);
+                setStage('lead');
             }
-        } else {
-            setStage('lead');
-        }
+            setIsTransitioning(false);
+        }, 400);
     };
 
     const handleBack = () => {
+        if (isTransitioning) return;
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
             setStage('quiz');
@@ -55,8 +70,8 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4 md:p-8 overflow-x-hidden">
-            <div className="w-full max-w-4xl mx-auto">
+        <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4 md:p-8 overflow-x-hidden transition-colors duration-500">
+            <div className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[90vh]">
                 <AnimatePresence mode="wait">
                     {stage === 'intro' && (
                         <Intro key="intro" onStart={handleStart} />
@@ -64,12 +79,13 @@ function App() {
 
                     {stage === 'quiz' && (
                         <Quiz
-                            key="quiz"
+                            key={`quiz-${currentQuestionIndex}`}
                             question={QUESTIONS[currentQuestionIndex]}
                             totalQuestions={QUESTIONS.length}
                             currentIndex={currentQuestionIndex}
                             onAnswer={handleAnswer}
                             onBack={handleBack}
+                            isTransitioning={isTransitioning}
                         />
                     )}
 
@@ -80,7 +96,6 @@ function App() {
                             onNext={handleNextFromInterstitial}
                             onBack={() => {
                                 setStage('quiz');
-                                // stay at same currentQuestionIndex which is the last answered one
                             }}
                         />
                     )}
