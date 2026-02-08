@@ -22,10 +22,10 @@ function LeadCapture({ onSubmit, onBack }) {
             {/* Back Button */}
             <button
                 onClick={onBack}
-                className="absolute left-6 top-6 text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-2 group z-10"
+                className="absolute left-4 top-4 p-2 -ml-2 text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-2 group z-10"
             >
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                <span className="text-sm font-semibold">Back</span>
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                <span className="text-sm font-bold">Back</span>
             </button>
 
             <motion.div

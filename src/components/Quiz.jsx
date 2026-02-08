@@ -32,11 +32,11 @@ function Quiz({ question, totalQuestions, currentIndex, onAnswer, onBack, isTran
                 <button
                     onClick={onBack}
                     disabled={currentIndex === 0 || isTransitioning}
-                    className={`flex items-center gap-2 text-sm font-semibold transition-all ${currentIndex === 0 ? 'opacity-0 pointer-events-none' : 'text-slate-400 hover:text-slate-600'
+                    className={`p-2 -ml-2 flex items-center gap-1.5 text-sm font-bold transition-all ${currentIndex === 0 ? 'opacity-0 pointer-events-none' : 'text-slate-500 hover:text-slate-800'
                         } ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}
                 >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span className="hidden xs:inline">Back</span>
+                    <ArrowLeft className="w-5 h-5" />
+                    <span>Back</span>
                 </button>
 
                 <div className="flex gap-1.5 md:gap-2">
@@ -53,7 +53,7 @@ function Quiz({ question, totalQuestions, currentIndex, onAnswer, onBack, isTran
                     ))}
                 </div>
 
-                <span className="text-xs md:text-sm font-bold text-slate-400 tabular-nums">
+                <span className="text-xs md:text-sm font-bold text-slate-400 tabular-nums flex-shrink-0 px-2">
                     {currentIndex + 1} <span className="text-slate-300">/</span> {totalQuestions}
                 </span>
             </div>

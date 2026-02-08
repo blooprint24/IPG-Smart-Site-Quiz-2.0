@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Intro from './components/Intro';
 import Quiz from './components/Quiz';
@@ -13,11 +13,19 @@ function App() {
     const [answers, setAnswers] = useState({});
     const [userData, setUserData] = useState({ name: '', email: '' });
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const transitionTimeoutRef = useRef(null);
 
     // Ensure we scroll to top on stage/question changes for mobile
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [stage, currentQuestionIndex]);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
+        };
+    }, []);
 
     const handleStart = () => {
         setStage('quiz');
@@ -29,8 +37,7 @@ function App() {
         setIsTransitioning(true);
         setAnswers(prev => ({ ...prev, [questionId]: weight }));
 
-        // Subtle delay to allow visual feedback on the selected option
-        setTimeout(() => {
+        transitionTimeoutRef.current = setTimeout(() => {
             const nextIndex = currentQuestionIndex + 1;
 
             if (nextIndex < QUESTIONS.length) {
@@ -46,11 +53,22 @@ function App() {
                 setStage('lead');
             }
             setIsTransitioning(false);
+            transitionTimeoutRef.current = null;
         }, 400);
     };
 
     const handleBack = () => {
-        if (isTransitioning) return;
+        // If transitioning, clear the timeout and stop the forward move
+        if (isTransitioning) {
+            if (transitionTimeoutRef.current) {
+                clearTimeout(transitionTimeoutRef.current);
+                transitionTimeoutRef.current = null;
+            }
+            setIsTransitioning(false);
+            // We just stay on the same question, effectively "cancelling" the transition
+            return;
+        }
+
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
             setStage('quiz');
