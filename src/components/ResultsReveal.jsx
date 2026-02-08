@@ -44,7 +44,7 @@ const ResultsReveal = ({ answers, userData }) => {
     }, [step]);
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 min-h-[60vh] flex flex-col justify-center">
+        <div className="w-full max-w-4xl mx-auto px-2 md:px-4 py-6 md:py-12 flex flex-col">
             <AnimatePresence mode="wait">
                 {step === 1 && (
                     <motion.div
@@ -173,15 +173,15 @@ const ResultsReveal = ({ answers, userData }) => {
                                     </motion.div>
                                 </div>
 
-                                <div className="mt-12 border-t border-slate-100 pt-10">
-                                    <h3 className="text-2xl font-bold text-slate-900 mb-4">Get your personalized First Fix report (100% Free)</h3>
-                                    <p className="text-slate-600 mb-8 max-w-xl mx-auto leading-relaxed">
+                                <div className="mt-12 border-t border-slate-100 pt-10 px-1">
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-4 px-2">Get your personalized First Fix report (100% Free)</h3>
+                                    <p className="text-slate-600 mb-8 max-w-xl mx-auto leading-relaxed px-2">
                                         We'll show you exactly how to fix these gaps right away — with no obligation and before they start hurting your business or limiting your growth.
                                     </p>
-                                    <div className="w-full min-h-[500px] bg-slate-50 rounded-[50px] overflow-hidden shadow-inner">
+                                    <div className="w-full min-h-[650px] md:min-h-[550px] bg-slate-50 rounded-[30px] md:rounded-[50px] overflow-hidden shadow-inner">
                                         <iframe
                                             src="https://updates.idealperformancegroup.com/widget/form/ewdFP0Bausi8ra0Gguzz"
-                                            style={{ width: '100%', height: '100%', border: 'none', borderRadius: '50px' }}
+                                            style={{ width: '100%', height: '100%', border: 'none' }}
                                             id="inline-ewdFP0Bausi8ra0Gguzz"
                                             data-layout="{'id':'INLINE'}"
                                             data-trigger-type="alwaysShow"

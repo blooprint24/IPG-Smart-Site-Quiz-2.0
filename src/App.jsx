@@ -82,8 +82,8 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4 md:p-8 overflow-x-hidden transition-colors duration-500">
-            <div className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[90vh]">
+        <div className="min-h-screen bg-slate-100 flex flex-col p-4 md:p-8 overflow-x-hidden transition-colors duration-500">
+            <div className={`w-full max-w-4xl mx-auto flex flex-col ${stage === 'results' ? 'pt-4 md:pt-12' : 'items-center justify-center min-h-[90vh]'}`}>
                 <AnimatePresence mode="wait">
                     {stage === 'intro' && (
                         <Intro key="intro" onStart={handleStart} />
