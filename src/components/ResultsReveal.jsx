@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QUADRANTS, QUESTIONS } from '../constants';
-import { Eye, Phone, Settings, BarChart3, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
+import { Eye, Phone, Settings, BarChart3, ShieldCheck, Zap } from 'lucide-react';
 
 const icons = { Eye, Phone, Settings, BarChart3 };
 
@@ -64,7 +64,7 @@ const ResultsReveal = ({ answers, userData }) => {
                         animate={{ opacity: 1 }}
                         className="space-y-8 md:space-y-12"
                     >
-                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-6 max-w-2xl mx-auto">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
                             {Object.keys(QUADRANTS).map((key) => {
                                 const quad = QUADRANTS[key];
                                 const Icon = icons[quad.icon];
@@ -82,7 +82,7 @@ const ResultsReveal = ({ answers, userData }) => {
                                             opacity: step >= 4 && !isMax ? 0.6 : 1,
                                             boxShadow: step >= 4 && isMax ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' : 'none'
                                         }}
-                                        className={`quadrant-card glass relative overflow-hidden h-40 md:h-64 flex flex-col items-center justify-center border-2 transition-all duration-500 ${step >= 4 && isMax ? 'border-slate-400 z-10' : 'border-slate-100'}`}
+                                        className={`quadrant-card glass relative overflow-hidden h-32 md:h-48 flex flex-col items-center justify-center border-2 transition-all duration-500 ${step >= 4 && isMax ? 'border-slate-400 z-10' : 'border-slate-100'}`}
                                     >
                                         <motion.div
                                             initial={{ height: 0 }}
@@ -91,16 +91,16 @@ const ResultsReveal = ({ answers, userData }) => {
                                             className={`absolute bottom-0 left-0 w-full opacity-10 ${quad.color === 'blue' ? 'bg-blue-500' : quad.color === 'green' ? 'bg-green-500' : quad.color === 'orange' ? 'bg-orange-500' : 'bg-purple-500'}`}
                                         />
 
-                                        <div className={`p-3 md:p-4 rounded-xl md:rounded-2xl mb-2 md:mb-4 bg-slate-50 relative z-10 ${isMax && step >= 4 ? 'animate-pulse' : ''}`}>
-                                            <Icon className="w-6 h-6 md:w-8 md:h-8 text-slate-600" />
+                                        <div className={`p-2 md:p-3 rounded-xl bg-slate-50 relative z-10 ${isMax && step >= 4 ? 'animate-pulse' : ''}`}>
+                                            <Icon className="w-5 h-5 md:w-6 h-6 text-slate-600" />
                                         </div>
-                                        <h3 className="text-sm md:text-xl font-bold text-slate-800 text-center px-2 relative z-10">{quad.name}</h3>
+                                        <h3 className="text-xs md:text-sm font-bold text-slate-800 text-center px-1 relative z-10 mt-2">{quad.name}</h3>
 
                                         {step >= 3 && (
                                             <motion.span
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
-                                                className="absolute top-2 right-2 text-[10px] md:text-xs font-bold text-slate-400 tabular-nums"
+                                                className="absolute top-2 right-2 text-[10px] font-bold text-slate-400 tabular-nums"
                                             >
                                                 {Math.round(fillPercentage)}%
                                             </motion.span>
@@ -127,7 +127,7 @@ const ResultsReveal = ({ answers, userData }) => {
                                 </motion.div>
 
                                 <h2 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
-                                    {userData.name ? `${userData.name}, this` : 'This'} is where pressure is building first.
+                                    This is where pressure is building first.
                                 </h2>
 
                                 <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed px-2">
@@ -166,14 +166,28 @@ const ResultsReveal = ({ answers, userData }) => {
                                     </motion.div>
                                 </div>
 
-                                <motion.button
-                                    whileHover={{ scale: 1.02, y: -2 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="group flex items-center justify-center space-x-2 bg-slate-900 text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl text-lg md:text-xl font-bold hover:bg-slate-800 transition-all shadow-xl hover:shadow-2xl w-full sm:w-auto mx-auto"
-                                >
-                                    <span>Get your first fix report</span>
-                                    <ArrowRight className="w-5 h-5 md:w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                                </motion.button>
+                                <div className="mt-12 border-t border-slate-100 pt-10">
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-6">Get your personalized First Fix report</h3>
+                                    <div className="w-full min-h-[500px] bg-slate-50 rounded-[50px] overflow-hidden shadow-inner">
+                                        <iframe
+                                            src="https://updates.idealperformancegroup.com/widget/form/ewdFP0Bausi8ra0Gguzz"
+                                            style={{ width: '100%', height: '100%', border: 'none', borderRadius: '50px' }}
+                                            id="inline-ewdFP0Bausi8ra0Gguzz"
+                                            data-layout="{'id':'INLINE'}"
+                                            data-trigger-type="alwaysShow"
+                                            data-trigger-value=""
+                                            data-activation-type="alwaysActivated"
+                                            data-activation-value=""
+                                            data-deactivation-type="neverDeactivate"
+                                            data-deactivation-value=""
+                                            data-form-name="Form 9"
+                                            data-height="492"
+                                            data-layout-iframe-id="inline-ewdFP0Bausi8ra0Gguzz"
+                                            data-form-id="ewdFP0Bausi8ra0Gguzz"
+                                            title="Form 9"
+                                        />
+                                    </div>
+                                </div>
                             </motion.div>
                         )}
                     </motion.div>
