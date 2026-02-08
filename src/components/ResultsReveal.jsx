@@ -5,6 +5,13 @@ import { Eye, Phone, Settings, BarChart3, ShieldCheck, Zap } from 'lucide-react'
 
 const icons = { Eye, Phone, Settings, BarChart3 };
 
+const colorClasses = {
+    blue: 'text-blue-600',
+    green: 'text-green-600',
+    orange: 'text-orange-600',
+    purple: 'text-purple-600'
+};
+
 const ResultsReveal = ({ answers, userData }) => {
     const [step, setStep] = useState(1); // 1: Calculating, 2: Grid, 3: Fill, 4: Highlight, 5: Complete
 
@@ -131,7 +138,7 @@ const ResultsReveal = ({ answers, userData }) => {
                                 </h2>
 
                                 <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed px-2">
-                                    This doesn’t mean you’re doing anything wrong. It means **{QUADRANTS[maxQuadrant].name}** is where risk is quietly growing — and where fixing one thing will help everything else feel easier.
+                                    This doesn’t mean you’re doing anything wrong. It means <span className={`font-bold transition-colors duration-500 ${colorClasses[QUADRANTS[maxQuadrant].color]}`}>{QUADRANTS[maxQuadrant].name}</span> is where risk is quietly growing — and where fixing one thing will help everything else feel easier.
                                 </p>
 
                                 <div className="grid md:grid-cols-2 gap-4 md:gap-6 text-left mb-10">
@@ -161,13 +168,16 @@ const ResultsReveal = ({ answers, userData }) => {
                                             <h4 className="font-bold text-slate-800 tracking-tight">The First Fix</h4>
                                         </div>
                                         <p className="text-slate-600 text-sm leading-relaxed">
-                                            By focusing on reducing risk in **{QUADRANTS[maxQuadrant].name}** first, you unlock the momentum needed to stabilize the whole business.
+                                            By focusing on reducing risk in <span className={`font-bold transition-colors duration-500 ${colorClasses[QUADRANTS[maxQuadrant].color]}`}>{QUADRANTS[maxQuadrant].name}</span> first, you unlock the momentum needed to stabilize the whole business.
                                         </p>
                                     </motion.div>
                                 </div>
 
                                 <div className="mt-12 border-t border-slate-100 pt-10">
-                                    <h3 className="text-2xl font-bold text-slate-900 mb-6">Get your personalized First Fix report</h3>
+                                    <h3 className="text-2xl font-bold text-slate-900 mb-4">Get your personalized First Fix report</h3>
+                                    <p className="text-slate-600 mb-8 max-w-xl mx-auto">
+                                        We'll show you exactly how to fix these gaps right away — before they start hurting your business or limiting your growth.
+                                    </p>
                                     <div className="w-full min-h-[500px] bg-slate-50 rounded-[50px] overflow-hidden shadow-inner">
                                         <iframe
                                             src="https://updates.idealperformancegroup.com/widget/form/ewdFP0Bausi8ra0Gguzz"
